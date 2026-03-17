@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StarSpark — More 5-Star Reviews. On Autopilot.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0a0f1e;
+      --navy-2: #111827;
+      --navy-3: #1a2340;
+      --gold: #f5c518;
+      --gold-light: #ffd84d;
+      --gold-dim: rgba(245, 197, 24, 0.15);
+      --white: #ffffff;
+      --gray: #9ca3af;
+      --gray-light: #f3f4f6;
+      --text: #e5e7eb;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 15, 30, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245, 197, 24, 0.12);
+      padding: 0 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .logo {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .logo span { color: var(--gold); }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 110px 5% 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(245,197,24,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold-dim);
+      border: 1px solid rgba(245,197,24,0.3);
+      color: var(--gold);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.22rem);
+      color: var(--gray);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      line-height: 1.65;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 15px 30px;
+      border-radius: 10px;
+      transition: background 0.2s, transform 0.15s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 15px 30px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.18);
+      transition: border-color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-ghost:hover { border-color: var(--gold); background: var(--gold-dim); }
+
+    .hero-stat {
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--gray);
+      margin-top: 4px;
+    }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 90px 5%; }
+
+    .section-label {
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.8px;
+      margin-bottom: 14px;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: var(--gray);
+      font-size: 1.05rem;
+      max-width: 560px;
+      margin: 0 auto 56px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    #how {
+      background: var(--navy-2);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 28px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .step {
+      background: var(--navy-3);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 36px 30px;
+      position: relative;
+    }
+
+    .step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .step h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .step p { color: var(--gray); font-size: 0.95rem; }
+
+    /* ── SOCIAL PROOF ── */
+    .proof-bar {
+      background: var(--gold);
+      color: var(--navy);
+      text-align: center;
+      padding: 18px 5%;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    #proof { background: var(--navy); }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .review-card {
+      background: var(--navy-3);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 26px 24px;
+    }
+
+    .review-stars {
+      color: var(--gold);
+      font-size: 1rem;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+
+    .review-text {
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 18px;
+      font-style: italic;
+    }
+
+    .review-author {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray);
+    }
+
+    .review-author span { color: var(--white); }
+
+    /* ── PRICING ── */
+    #pricing {
+      background: var(--navy-2);
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .pricing-card {
+      max-width: 480px;
+      margin: 0 auto;
+      background: var(--navy-3);
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      padding: 48px 44px;
+      text-align: center;
+      position: relative;
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 5px 16px;
+      border-radius: 100px;
+      white-space: nowrap;
+      letter-spacing: 0.5px;
+    }
+
+    .price-amount {
+      font-size: 3.8rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+
+    .price-amount sup {
+      font-size: 1.5rem;
+      font-weight: 700;
+      vertical-align: super;
+      letter-spacing: 0;
+    }
+
+    .price-per {
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin-top: 6px;
+      margin-bottom: 32px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 36px;
+      text-align: left;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .pricing-features li:last-child { border-bottom: none; }
+
+    .check {
+      color: var(--gold);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── FAQ ── */
+    #faq { background: var(--navy); }
+
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 26px 0;
+    }
+
+    .faq-item:first-child { border-top: 1px solid rgba(255,255,255,0.08); }
+
+    .faq-q {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .faq-a {
+      color: var(--gray);
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+
+    .faq-a strong { color: var(--text); }
+
+    /* ── FINAL CTA ── */
+    #cta {
+      background: linear-gradient(135deg, var(--navy-3) 0%, #0d1530 100%);
+      border-top: 1px solid rgba(245,197,24,0.15);
+      text-align: center;
+      padding: 100px 5%;
+    }
+
+    #cta h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    #cta p {
+      color: var(--gray);
+      font-size: 1.05rem;
+      margin-bottom: 40px;
+    }
+
+    .email-form {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .email-form input {
+      flex: 1;
+      min-width: 200px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .email-form input::placeholder { color: var(--gray); }
+    .email-form input:focus { border-color: var(--gold); }
+
+    .email-form button {
+      background: var(--gold);
+      color: var(--navy);
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 24px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .email-form button:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .cta-note {
+      margin-top: 14px;
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 32px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--white);
+    }
+
+    .footer-logo span { color: var(--gold); }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 0.85rem;
+      color: var(--gray);
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 4%; }
+      .hero { padding: 80px 4% 70px; }
+      section { padding: 70px 4%; }
+      .hero-stat { gap: 30px; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><span>Star</span>Spark ⭐</div>
+  <a href="#cta" class="nav-cta">Get Started — $149/mo</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">⭐ Trusted by local contractors</div>
+  <h1>More 5-Star Reviews.<br /><em>On Autopilot.</em></h1>
+  <p>We send the review requests so you don't have to. Your rating goes up. Your phone rings more.</p>
+  <div class="hero-btns">
+    <a href="#how" class="btn-primary">See How It Works</a>
+    <a href="#cta" class="btn-ghost">Start Free Trial</a>
+  </div>
+  <div class="hero-stat">
+    <div class="stat-item">
+      <div class="stat-num">4.2</div>
+      <div class="stat-label">new reviews/month avg</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">22%</div>
+      <div class="stat-label">request → review rate</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">$149</div>
+      <div class="stat-label">flat monthly, cancel anytime</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-label">The process</div>
+  <h2 class="section-title">Three steps. Zero effort.</h2>
+  <p class="section-sub">Set it up once, then forget about it. We handle everything.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Share your customer list</h3>
+      <p>After each job, drop the customer's name and contact info into your StarSpark dashboard. Takes 30 seconds.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>We send a personal request</h3>
+      <p>24 hours after the job, we send a warm, human-sounding message asking for a Google review. No spam. No pressure. Just a genuine ask.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Reviews roll in. Rating climbs.</h3>
+      <p>More reviews means higher ranking on Google. Higher ranking means more calls. You get a monthly report showing exactly how you're growing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF BAR -->
+<div class="proof-bar">
+  ⭐ Contractors using StarSpark average 4.2 new Google reviews per month
+</div>
+
+<!-- SOCIAL PROOF CARDS -->
+<section id="proof">
+  <div class="section-label">Real results</div>
+  <h2 class="section-title">Don't take our word for it.</h2>
+  <p class="section-sub">Reviews from contractors who let the system do the work.</p>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Steve and his crew were on time, cleaned up after themselves, and fixed a roof leak that two other companies couldn't figure out. Highly recommend Boone's Roofing — honest people, fair prices."</p>
+      <div class="review-author"><span>Mike T.</span> — Boone's Roofing customer</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Called at 8 AM about a burst pipe, they had a guy out by 10. Fixed it fast, walked me through what happened, and didn't charge me an arm and a leg. This is the plumber I'm using forever."</p>
+      <div class="review-author"><span>Janet R.</span> — Apex Plumbing customer</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Brand new HVAC system installed in a day. The tech was professional, wore boot covers inside, and actually explained what he was doing. Our house has never felt this comfortable in summer."</p>
+      <div class="review-author"><span>David K.</span> — Summit HVAC customer</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2 class="section-title">One plan. No surprises.</h2>
+  <p class="section-sub">Everything you need to build a dominant Google presence — for less than one job's profit.</p>
+  <div class="pricing-card">
+    <div class="pricing-badge">MOST POPULAR</div>
+    <div class="price-amount"><sup>$</sup>149</div>
+    <div class="price-per">per month, per location</div>
+    <ul class="pricing-features">
+      <li><span class="check">✓</span> Unlimited automated review requests</li>
+      <li><span class="check">✓</span> SMS + email outreach (A/B/C tested)</li>
+      <li><span class="check">✓</span> Monthly performance report emailed to you</li>
+      <li><span class="check">✓</span> 1-star alert notifications (respond fast)</li>
+      <li><span class="check">✓</span> Google rating monitoring (daily)</li>
+      <li><span class="check">✓</span> Cancel anytime — no contracts</li>
+    </ul>
+    <a href="#cta" class="btn-primary" style="display:block; text-align:center; width:100%;">Get Started Today</a>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-label">FAQ</div>
+  <h2 class="section-title">Questions? Answered.</h2>
+  <div class="faq-list">
+
+    <div class="faq-item">
+      <div class="faq-q">Is this against Google's terms of service?</div>
+      <div class="faq-a"><strong>No.</strong> We ask your customers for reviews. We never fake reviews, pay for them, or filter by expected rating. Asking happy customers to share their experience is 100% within Google's guidelines — it's what Google themselves recommends.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">How do customers receive the request?</div>
+      <div class="faq-a">We send a personalized email (and optionally SMS) 24 hours after the job is marked complete. It reads like it came directly from you — warm, human, personal. No generic blast. Your customers won't feel spammed.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">How long until I see results?</div>
+      <div class="faq-a">Most contractors see their <strong>first new reviews within the first week</strong>. Meaningful rating improvement typically shows within 30–60 days depending on job volume. The more customers you have, the faster it works.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">What if a customer leaves a bad review?</div>
+      <div class="faq-a">We alert you <strong>immediately</strong> when a 1-star review appears so you can respond fast. Responding to negative reviews professionally is the #1 way to protect your reputation. We catch them the moment they go live.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-q">Can I cancel?</div>
+      <div class="faq-a"><strong>Yes, anytime.</strong> No annual contracts, no cancellation fees. Email us and you're done. But honestly — once you see the reviews coming in, you won't want to.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="cta">
+  <h2>Ready to start getting more reviews?</h2>
+  <p>Join contractors already building a dominant Google presence — on autopilot.</p>
+  <form class="email-form" onsubmit="handleSubmit(event)">
+    <input type="email" placeholder="your@email.com" required />
+    <button type="submit">Start Free Trial →</button>
+  </form>
+  <p class="cta-note">No credit card required to start. $149/mo after trial.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo"><span>Star</span>Spark ⭐</div>
+  <div class="footer-links">
+    <a href="#how">How It Works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="mailto:starsparkreview@gmail.com">Contact</a>
+  </div>
+  <div class="footer-copy">StarSpark | A Build Block Agency product | starspark.ink | starsparkreview@gmail.com</div>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const email = e.target.querySelector('input').value;
+    // TODO: wire to Stripe checkout or email capture (Netlify forms, etc.)
+    alert('Thanks! We\'ll be in touch at ' + email + ' within 24 hours to get you set up.');
+    e.target.reset();
+  }
+</script>
+
+</body>
+</html>
